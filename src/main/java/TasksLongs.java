@@ -44,13 +44,14 @@ public class TasksLongs {
 
     public Double findMedianElement(List<Long> longs) {
         final int longsSize = longs.size();
-        longs.sort(null); // zamiast Long::compareTo zgodnie z doc
+        longs.sort(null); // zamiast Long::compare zgodnie z doc: Long implementuje Comparable
 
         return longs.stream()
                 .map(Double::valueOf)
-                .reduce(0D, (x, y) -> longs.size() % 2 == 0
+                .reduce((x, y) -> longs.size() % 2 == 0 // identity tutaj bez znaczenia, nawet null może być / lub wariant bez identity
                         ? (longs.get(longsSize / 2 - 1).doubleValue() + longs.get(longsSize / 2).doubleValue()) / 2
-                        : longs.get(longsSize / 2).doubleValue());
+                        : longs.get(longsSize / 2).doubleValue())
+                .orElse(Double.MIN_VALUE);
     }
 
     public Long countLongsGreaterThen(List<Long> longs, Long minimalLongValue) {

@@ -1,6 +1,5 @@
-import java.util.List;
+import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class TasksInts {
 
@@ -29,23 +28,31 @@ public class TasksInts {
     }
 
     public Integer findMaxElement(int[] ints) {
-        throw new UnsupportedOperationException("Todo.");
+        return Arrays.stream(ints)
+                .max()
+                .orElse(Integer.MIN_VALUE);
     }
 
     public Integer findMinElement(int[] ints) {
-        throw new UnsupportedOperationException("Todo.");
+        return Arrays.stream(ints)
+                .reduce(Integer.MAX_VALUE, Math::min);
     }
 
     public Integer findMinElement(int[] ints, int skippedAmount) {
-        throw new UnsupportedOperationException("Todo.");
+        return Arrays.stream(ints)
+                .sorted()
+                .skip((long) skippedAmount)
+                .findFirst()
+                .orElse(Integer.MIN_VALUE);
     }
 
     public Integer sum(int[] ints) {
-        throw new UnsupportedOperationException("Todo.");
+        return Arrays.stream(ints)
+                .sum();
     }
 
     private int[] getArrayOfInts() {
-        return new int[] {6126,717,226,83,2,8,327,23475,17,723,47632};
+        return new int[]{6126, 717, 226, 83, 2, 8, 327, 23475, 17, 723, 47632};
     }
 
     private int[] getArrayOfRandomPositiveInts(int amountOfInts) {
