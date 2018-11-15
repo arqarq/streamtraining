@@ -1,8 +1,6 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class TasksLists {
@@ -25,23 +23,33 @@ public class TasksLists {
     }
 
     private List<String> removeDuplicates(List<String> listOfString) {
-        throw new UnsupportedOperationException("Todo.");
+        return listOfString.stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private String concatenateStrings(List<String> listOfString) {
-        throw new UnsupportedOperationException("Todo.");
+        return listOfString.stream()
+                .collect(Collectors.joining());
     }
 
     private List<String> filterByPrefix(List<String> listOfString, String prefix) {
-        throw new UnsupportedOperationException("Todo.");
+        return listOfString.stream()
+                .filter(x -> x.startsWith(prefix))
+                .collect(Collectors.toList());
     }
 
     private List<String> filterBySuffix(List<String> listOfString, String suffix) {
-        throw new UnsupportedOperationException("Todo.");
+        return listOfString.stream()
+                .filter(x -> x.endsWith(suffix))
+                .collect(Collectors.toList());
     }
 
-    private Map<Long,List<String>> groupByLevelValue(List<String> listOfString) {
-        throw new UnsupportedOperationException("Todo.");
+    private Map<Long, List<String>> groupByLevelValue(List<String> listOfString) {
+        return listOfString.stream()
+//                .filter(x -> x.startsWith("Level-"))
+                .filter(x -> x.matches("^Level-\\d.*$"))
+                .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
     }
 
     private List<String> getListOfString() {
