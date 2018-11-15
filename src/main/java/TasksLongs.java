@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class TasksLongs {
 
-    public void execute() {
+    void execute() {
         List<Long> knownArrayOfLongs = getListOfLongs();
         List<Long> knownArrayOfRandomLongs = getListOfRandomPositiveLongs(100000);
 
@@ -12,7 +12,6 @@ public class TasksLongs {
         System.out.println("Max element from known list is " + maxElement1);
         Long maxElement2 = findMaxElement(knownArrayOfRandomLongs);
         System.out.println("Max element from random list is " + maxElement2);
-
 
         Long minElement1 = findMinElement(knownArrayOfLongs);
         System.out.println("Min element from known list is " + minElement1);
@@ -30,31 +29,38 @@ public class TasksLongs {
         System.out.println("Amount of random elements greater then 1000000000 is " + countGreaterThen2);
     }
 
-    public Long findMaxElement(List<Long> longs) {
+    private Long findMaxElement(List<Long> longs) {
 //        throw new UnsupportedOperationException("Todo.");
         return longs.stream()
                 .max(Long::compareTo)
                 .orElse(Long.MIN_VALUE);
     }
 
-    public Long findMinElement(List<Long> longs) {
+    private Long findMinElement(List<Long> longs) {
         return longs.stream()
                 .reduce(Long.MAX_VALUE, Long::min); // inaczej
     }
 
-    public Double findMedianElement(List<Long> longs) {
+    private Double findMedianElement(List<Long> longs) {
         final int longsSize = longs.size();
-        longs.sort(null); // zamiast Long::compare zgodnie z doc: Long implementuje Comparable
+        final int skipAmount = longsSize % 2 == 0 ? longsSize / 2 - 1 : longsSize / 2;
+        final int limitAmount = longsSize % 2 == 0 ? 2 : 1;
+//        longs.sort(null); // zamiast Long::compare zgodnie z doc: Long implementuje Comparable
 
         return longs.stream()
-                .map(Double::valueOf)
-                .reduce((x, y) -> longs.size() % 2 == 0 // identity tutaj bez znaczenia, nawet null może być / lub wariant bez identity
-                        ? (longs.get(longsSize / 2 - 1).doubleValue() + longs.get(longsSize / 2).doubleValue()) / 2
-                        : longs.get(longsSize / 2).doubleValue())
+                .sorted()
+                .mapToDouble(Double::valueOf)
+                .skip(skipAmount)
+                .limit(limitAmount)
+                .average()
                 .orElse(Double.MIN_VALUE);
+//                .reduce((x, y) -> longs.size() % 2 == 0 // identity tutaj bez znaczenia, nawet null może być / lub wariant bez identity
+//                        ? (longs.get(longsSize / 2 - 1).doubleValue() + longs.get(longsSize / 2).doubleValue()) / 2
+//                        : longs.get(longsSize / 2).doubleValue())
+//                .orElse(Double.MIN_VALUE);
     }
 
-    public Long countLongsGreaterThen(List<Long> longs, Long minimalLongValue) {
+    private Long countLongsGreaterThen(List<Long> longs, Long minimalLongValue) {
         return longs.stream()
                 .filter(x -> x > minimalLongValue)
                 .count();
@@ -86,5 +92,4 @@ public class TasksLongs {
         }
         return longs;
     }
-
 }
