@@ -47,14 +47,14 @@ public class TasksLists {
                 .collect(Collectors.toList());
     }
 
-    private Map<Long, List<String>> groupByLevelValueOld(List<String> listOfString) {
+    Map<Long, List<String>> groupByLevelValueOld(List<String> listOfString) {
         return listOfString.stream()
 //                .filter(x -> x.startsWith("Level-"))
                 .filter(x -> x.matches("^Level-\\d.*$"))
                 .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
     }
 
-    private Map<Long, List<String>> groupByLevelValue(List<String> listOfString) {
+    Map<Long, List<String>> groupByLevelValue(List<String> listOfString) {
         Pattern pattern = Pattern.compile("^Level-\\d.*$");
 
         return listOfString.stream()
@@ -62,7 +62,7 @@ public class TasksLists {
                 .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
     }
 
-    private List<String> getListOfString() {
+    List<String> getListOfString() {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
