@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TasksLists {
@@ -45,10 +47,18 @@ public class TasksLists {
                 .collect(Collectors.toList());
     }
 
-    private Map<Long, List<String>> groupByLevelValue(List<String> listOfString) {
+    private Map<Long, List<String>> groupByLevelValueOld(List<String> listOfString) {
         return listOfString.stream()
 //                .filter(x -> x.startsWith("Level-"))
                 .filter(x -> x.matches("^Level-\\d.*$"))
+                .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
+    }
+
+    private Map<Long, List<String>> groupByLevelValue(List<String> listOfString) {
+        Pattern pattern = Pattern.compile("^Level-\\d.*$");
+
+        return listOfString.stream()
+                .filter(x -> pattern.matcher(x).matches())
                 .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
     }
 
