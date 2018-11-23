@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -22,6 +21,9 @@ public class TasksLists {
 
         Map<Long, List<String>> groupedByLevelValue = groupByLevelValue(getListOfString());
         System.out.println("Grouped by level value: " + groupedByLevelValue);
+
+        Map<Long, List<String>> groupedByLevelValueOld = groupByLevelValueOld(getListOfString());
+        System.out.println("Grouped by level value: " + groupedByLevelValueOld);
     }
 
     private List<String> removeDuplicates(List<String> listOfString) {
@@ -48,18 +50,25 @@ public class TasksLists {
     }
 
     Map<Long, List<String>> groupByLevelValueOld(List<String> listOfString) {
-        return listOfString.stream()
+        long l = System.currentTimeMillis();
+
+        Map<Long, List<String>> result = listOfString.stream()
 //                .filter(x -> x.startsWith("Level-"))
                 .filter(x -> x.matches("^Level-\\d.*$"))
                 .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
+        System.out.println("Czas [ms] bez wydzielenia pola z Pattern w metodzie: " + (System.currentTimeMillis() - l));
+        return result;
     }
 
     Map<Long, List<String>> groupByLevelValue(List<String> listOfString) {
         Pattern pattern = Pattern.compile("^Level-\\d.*$");
+        long l = System.currentTimeMillis();
 
-        return listOfString.stream()
+        Map<Long, List<String>> result = listOfString.stream()
                 .filter(x -> pattern.matcher(x).matches())
                 .collect(Collectors.groupingBy(x -> Long.valueOf("" + x.charAt(6))));
+        System.out.println("Czas [ms] z wydzieleniem pola z Pattern w metodzie: " + (System.currentTimeMillis() - l));
+        return result;
     }
 
     List<String> getListOfString() {
@@ -76,5 +85,4 @@ public class TasksLists {
         list.add("Duplicate-2");
         return list;
     }
-
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 public class TasksListsTest {
     private TasksLists tasksLists;
     private List<String> inputString;
+    private Map<Long, List<String>> longListMap = null;
 
     @Before
     public void init() {
@@ -15,18 +16,22 @@ public class TasksListsTest {
     }
 
     @Test
-    public void shouldGroupByLevelValueOld() {
+    public void shouldGroupByLevelValue() {
         // when
         // then
-        Map<Long, List<String>> longListMap = tasksLists.groupByLevelValueOld(inputString);
+//        long l = System.currentTimeMillis();
+        longListMap = tasksLists.groupByLevelValue(inputString);
+//        System.out.println("Czas z wydzieleniem pola w metodzie: " + (System.currentTimeMillis() - l));
         // assert
     }
 
     @Test
-    public void shouldGroupByLevelValue() {
+    public void shouldGroupByLevelValueOld() {
         // when
         // then
-        Map<Long, List<String>> longListMap = tasksLists.groupByLevelValue(inputString);
+//        long l = System.currentTimeMillis();
+        longListMap = tasksLists.groupByLevelValueOld(inputString);
+//        System.out.println("Czas bez wydzielenia pola w metodzie: " + (System.currentTimeMillis() - l));
         // assert
     }
 }
